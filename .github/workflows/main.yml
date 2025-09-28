@@ -59,7 +59,7 @@ jobs:
         make O="$HOME/out" LLVM=1 "$KERNEL_DEFCONFIG"
 
         # 开feature
-        scripts/config --file out/.config \
+        scripts/config --file "$HOME/out/.config" \
                       --enable KSU           \
                       --enable KSU_KPM        \
                       --enable KSU_SUSFS      \
