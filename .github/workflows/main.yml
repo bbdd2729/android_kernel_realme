@@ -13,7 +13,6 @@ jobs:
     # ---------- ① 源码 ----------
     - name: Clone kernel source
       run: |
-        mkdir -p "$GITHUB_WORKSPACE/kernel"
         git clone --depth=1 --branch rui5.0 \
           https://github.com/bbdd2729/android_kernel_realme.git
                     "$GITHUB_WORKSPACE/kernel"
