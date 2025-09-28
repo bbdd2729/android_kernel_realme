@@ -13,7 +13,7 @@ jobs:
     # ---------- ① 源码 ----------
     - name: Clone kernel source
       run: |
-        git clone --depth=1 --branch rui5.0 https://github.com/bbdd2729/android_kernel_realme.git "$GITHUB_WORKSPACE/kernel"
+        git clone --branch rui5.0 https://github.com/bbdd2729/android_kernel_realme.git "$GITHUB_WORKSPACE/kernel"
 
     # ---------- ② 依赖 ----------
     - name: Install deps
@@ -51,6 +51,8 @@ jobs:
         export CROSS_COMPILE=aarch64-linux-gnu-
         export ARCH=arm64
         export LLVM=1
+        export KBUILD_BUILD_VERSION=""
+        export KBUILD_BUILD_TIMESTAMP=""
 
         rm -rf "$HOME/out"
         mkdir -p "$HOME/out"
@@ -68,7 +70,7 @@ jobs:
           --enable KALLSYMS_ALL
 
         grep -E 'CONFIG_KSU|CONFIG_KSU_SUSFS|CONFIG_KSU_KPM' "$HOME/out/.config" || echo "❌ 未找到"                             
-        make O="$HOME/out" LLVM=1 -j8
+        make O="$HOME/out" LLVM=1 -j6
 
     # ---------- ⑧ AnyKernel3 打包 ----------
     - name: Pack flashable zip
