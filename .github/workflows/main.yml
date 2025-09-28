@@ -53,7 +53,7 @@ jobs:
         export LLVM=1
         export KBUILD_BUILD_VERSION=""
         export KBUILD_BUILD_TIMESTAMP=""
-
+        find drivers/staging/qcacld* -name Makefile -exec sed -i 's/\$(shell git[^)]*/unknown/g' {} +
         rm -rf "$HOME/out"
         mkdir -p "$HOME/out"
 
