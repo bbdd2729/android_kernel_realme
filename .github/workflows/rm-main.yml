@@ -10,7 +10,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-
+    
+    
+    - name: Checkout code 
+      uses: actions/checkout@v4
+    
+    
     # ---------- ② 依赖 ----------
     - name: Install deps
       run: |
