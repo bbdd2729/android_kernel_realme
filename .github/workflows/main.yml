@@ -10,10 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    # ---------- ① 源码 ----------
-    - name: Clone kernel source
-      run: |
-        git clone --branch rui5.0 https://github.com/bbdd2729/android_kernel_realme.git "$GITHUB_WORKSPACE/kernel"
 
     # ---------- ② 依赖 ----------
     - name: Install deps
@@ -37,23 +33,22 @@ jobs:
 
     # ---------- ④ SukiSU ----------
     - name: Inject SukiSU
-      working-directory: ${{ github.workspace }}/kernel
+      working-directory: ${{ github.workspace }}
       run: |
         curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s nongki
 
 
     # ---------- ⑦ 配置 & 编译 ----------
     - name: Configure & Build
-      working-directory: ${{ github.workspace }}/kernel
+      working-directory: ${{ github.workspace }}
       run: |
         export KBUILD_BUILD_HOST=gh-actions
         export PATH="$HOME/clang-tools/bin:$PATH"
         export CROSS_COMPILE=aarch64-linux-gnu-
         export ARCH=arm64
         export LLVM=1
-        export KBUILD_BUILD_VERSION=""
-        export KBUILD_BUILD_TIMESTAMP=""
-        find drivers/staging/qcacld* -name Makefile -exec sed -i 's/\$(shell git[^)]*/unknown/g' {} +
+        
+        
         rm -rf "$HOME/out"
         mkdir -p "$HOME/out"
 
