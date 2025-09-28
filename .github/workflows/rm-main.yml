@@ -40,6 +40,7 @@ jobs:
     - name: Inject SukiSU
       working-directory: ${{ github.workspace }}
       run: |
+        ls -l | grep '^d'
         pwd && ls -la
         curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s nongki
 
