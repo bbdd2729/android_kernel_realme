@@ -130,4 +130,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: SukiSU-4.19-${{ github.run_number }}
-        path: SukiSU-4.19.zip
+        path: SukiSU-4.19-boot.zip
