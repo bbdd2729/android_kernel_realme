@@ -1,5 +1,9 @@
 # Kernel Open Source for realme Snapdragon 865/870 Devices
 
+
+
+[![已修补Build 4.19 ，rui5.0+ SukiSU + 自带susfs 第一版](https://github.com/bbdd2729/android_kernel_realme/actions/workflows/rm-main.yml/badge.svg?branch=master)](https://github.com/bbdd2729/android_kernel_realme/actions/workflows/rm-main.yml)
+
 # Branch Notes
 
 ## rui2.0 — Based on Android 11 / realme UI 2.0
