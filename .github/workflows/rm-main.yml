@@ -42,13 +42,20 @@ jobs:
       run: |
         ls -l | grep '^d'
         pwd && ls -la
+        
         git clone --branch kernel-4.19 https://gitlab.com/simonpunk/susfs4ksu.git "$HOME/susfs4ksu"
-        cp "$HOME/susfs4ksu/kernel_patches/50_add_susfs_in_kernel-4.19.patch" ./
-        cp "$HOME/susfs4ksu/kernel_patches/fs/*" "$GITHUB_WORKSPACE/fs/"
-        cp "$HOME/susfs4ksu/kernel_patches/include/linux/*" "$GITHUB_WORKSPACE/include/linux/"
-        curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s susfs-main
+        
+        
+        cp -v "$HOME/susfs4ksu/kernel_patches"/50_add_susfs_in_kernel-4.19.patch ./ 2>/dev/null || true
+        cp -v "$HOME/susfs4ksu/kernel_patches/fs"/* ./fs/ 2>/dev/null || true
+        cp -v "$HOME/susfs4ksu/kernel_patches/include/linux"/* ./include/linux/ 2>/dev/null || true
+        
+        
         patch -p1 < 50_add_susfs_in_kernel-4.19.patch || true
- 
+        
+        
+        curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s susfs-main
+        
 
     # ---------- ⑦ 配置 & 编译 ----------
     - name: Configure & Build
