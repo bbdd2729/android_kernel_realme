@@ -23,6 +23,8 @@
 #include <linux/ctype.h>
 #include <linux/sched/signal.h>
 
+#include <linux/susfs_def.h>   // 让 BIT_SUS_KSTAT 可见
+
 #include <asm/elf.h>
 #include <asm/tlb.h>
 #include <asm/tlbflush.h>
