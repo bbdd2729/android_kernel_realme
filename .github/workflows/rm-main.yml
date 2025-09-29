@@ -43,7 +43,8 @@ jobs:
         ls -l | grep '^d'
         pwd && ls -la
         curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s susfs-main
-
+        git clone --branch kernel-4.19 https://gitlab.com/simonpunk/susfs4ksu.git
+ 
 
     # ---------- ⑦ 配置 & 编译 ----------
     - name: Configure & Build
