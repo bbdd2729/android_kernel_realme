@@ -1,0 +1,83 @@
+name: Build SukiSU 4.19 kernel
+on:
+  push:
+    branches: [ rui5.0 ]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      sukisu_ref:
+        description: 'SukiSU branch/tag (empty = main)'
+        type: string
+        default: ''
+
+jobs:
+  # 1. 编译内核（复用）
+  kernel:
+    uses: ./.github/workflows/build.yml   # 也可改成 <user>/<repo>/.github/workflows/build.yml@<branch>
+    with:
+      sukisu_ref: ${{ github.event.inputs.sukisu_ref }}
+      defconfig: vendor/kona-perf_defconfig
+      artifact_name: kernel-out
+
+  # 2. 打包 AnyKernel3
+  pack:
+    needs: kernel
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download kernel artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: kernel-out
+          path: /tmp/out
+
+      - name: Clone AnyKernel3
+        run: git clone --depth=1 https://github.com/osm0sis/AnyKernel3.git /tmp/ak3
+
+      - name: Copy images
+        run: |
+          cp /tmp/out/arch/arm64/boot/Image* /tmp/ak3/zImage 2>/dev/null || true
+          cp /tmp/out/arch/arm64/boot/dtb      /tmp/ak3/dtb    2>/dev/null || true
+          cp /tmp/out/arch/arm64/boot/dtbo.img /tmp/ak3/dtbo.img 2>/dev/null || true
+
+      - name: Download busybox
+        run: |
+          mkdir -p /tmp/ak3/tools
+          curl -Lo /tmp/ak3/tools/busybox https://github.com/osm0sis/busybox-static/raw/master/busybox-arm64
+          chmod 755 /tmp/ak3/tools/busybox
+
+      - name: Write anykernel.sh
+        run: |
+          cat >/tmp/ak3/anykernel.sh <<'EOF'
+          ### AnyKernel3 Ramdisk Mod Script
+          ## osm0sis @ xda-developers
+          properties() { '
+          kernel.string=Flashing Kernel Now...Please manually close avb2.0 after completion.
+          do.devicecheck=0
+          do.modules=0
+          do.systemless=1
+          do.cleanup=1
+          do.cleanuponabort=0
+          device.name1=
+          supported.versions=
+          supported.patchlevels=
+          '; }
+          BLOCK=boot;
+          IS_SLOT_DEVICE=0;
+          RAMDISK_COMPRESSION=auto;
+          PATCH_VBMETA_FLAG=auto;
+          . tools/ak3-core.sh;
+          dump_boot;
+          write_boot;
+          EOF
+
+      - name: Create flashable zip
+        run: |
+          cd /tmp/ak3
+          zip -r9 SukiSU-4.19-boot.zip * -x .git README.md
+          mv SukiSU-4.19-boot.zip "$GITHUB_WORKSPACE"
+
+      - name: Upload final zip
+        uses: actions/upload-artifact@v4
+        with:
+          name: SukiSU-4.19-${{ github.run_number }}
+          path: SukiSU-4.19-boot.zip
