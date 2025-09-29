@@ -83,12 +83,12 @@ jobs:
           --enable KALLSYMS \
           --enable KALLSYMS_ALL \
           --enable KSU_SUSFS_HAS_MAGIC_MOUNT \
-          --enable KSU_SUSFS_DEF_H \
           --enable KSU_SUSFS_SUS_PATH \
           --enable KSU_SUSFS_SUS_MOUNT \
           --enable KSU_SUSFS_SUS_KSTAT \
           --enable KSU_SUSFS_TRY_UMOUNT \
-          --disable KSU_SUSFS_SUS_SU
+          --disable KSU_SUSFS_SUS_SU \
+          --enable KSU_SUSFS_DEF_H
 
         grep -E 'CONFIG_KSU|CONFIG_KSU_SUSFS|CONFIG_KSU_KPM' "$HOME/out/.config" || echo "❌ 未找到"                             
         make O="$HOME/out" LLVM=1 -j6
