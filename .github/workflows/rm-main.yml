@@ -46,12 +46,12 @@ jobs:
         git clone --branch kernel-4.19 https://gitlab.com/simonpunk/susfs4ksu.git "$HOME/susfs4ksu"
         
         
-        cp -v "$HOME/susfs4ksu/kernel_patches"/50_add_susfs_in_kernel-4.19.patch ./ 2>/dev/null || true
+        cp -v "$HOME/susfs4ksu/kernel_patches"/50_add_susfs_in_gki-android14-5.15.patch ./ 2>/dev/null || true
         cp -v "$HOME/susfs4ksu/kernel_patches/fs"/* ./fs/ 2>/dev/null || true
         cp -v "$HOME/susfs4ksu/kernel_patches/include/linux"/* ./include/linux/ 2>/dev/null || true
         
         
-        patch -p1 < 50_add_susfs_in_kernel-4.19.patch || true
+        patch -p1 < 50_add_susfs_in_gki-android14-5.15.patch || true
         
         
         curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s susfs-main
@@ -83,7 +83,12 @@ jobs:
           --enable KALLSYMS \
           --enable KALLSYMS_ALL \
           --enable KSU_SUSFS_HAS_MAGIC_MOUNT \
-          --enable KSU_SUSFS_DEF_H
+          --enable KSU_SUSFS_DEF_H \
+          --enable KSU_SUSFS_SUS_PATH \
+          --enable KSU_SUSFS_SUS_MOUNT \
+          --enable KSU_SUSFS_SUS_KSTAT \
+          --enable KSU_SUSFS_TRY_UMOUNT \
+          --disable KSU_SUSFS_SUS_SU
 
         grep -E 'CONFIG_KSU|CONFIG_KSU_SUSFS|CONFIG_KSU_KPM' "$HOME/out/.config" || echo "❌ 未找到"                             
         make O="$HOME/out" LLVM=1 -j6
