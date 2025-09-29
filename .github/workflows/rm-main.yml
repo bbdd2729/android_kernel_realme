@@ -81,7 +81,9 @@ jobs:
           --enable KSU_SUSFS \
           --enable KSU_MANUAL_HOOK \
           --enable KALLSYMS \
-          --enable KALLSYMS_ALL
+          --enable KALLSYMS_ALL \
+          --enable KSU_SUSFS_HAS_MAGIC_MOUNT \
+          --enable KSU_SUSFS_DEF_H
 
         grep -E 'CONFIG_KSU|CONFIG_KSU_SUSFS|CONFIG_KSU_KPM' "$HOME/out/.config" || echo "❌ 未找到"                             
         make O="$HOME/out" LLVM=1 -j6
