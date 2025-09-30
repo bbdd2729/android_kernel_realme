@@ -49,7 +49,7 @@ jobs:
         patch -p1 < ksu_hooks_sukisu_4.19.patch || true
         patch -p1 < susfs.patch || true
         
-        curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s nongki
+        curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s susfs-main
         
 
     # ---------- ⑦ 配置 & 编译 ----------
@@ -138,10 +138,10 @@ jobs:
         EOF
 
         # 4. 打包
-        zip -r9 "$GITHUB_WORKSPACE/SukiSU-4.19-boot.zip" * -x .git README.md    
+        zip -r9 "$GITHUB_WORKSPACE/SukiSU-4.19-boot-susfs.zip" * -x .git README.md    
     # ---------- ⑨ 上传 & 发布 ----------
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: SukiSU-4.19-${{ github.run_number }}
-        path: SukiSU-4.19-boot.zip
+        name: SukiSU-4.19-susfs-${{ github.run_number }}
+        path: SukiSU-4.19-boot-susfs.zip
