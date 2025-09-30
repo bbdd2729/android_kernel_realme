@@ -1,8 +1,6 @@
 name: Build 4.19nongki rui5.0 + SukiSU + susfs
 
 on:
-  push:
-    branches: [ newrui5 ]
   workflow_dispatch:
   pull_request:
 
