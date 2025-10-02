@@ -41,7 +41,7 @@ jobs:
         ls -l | grep '^d'
         pwd && ls -la
         
-        wget -q https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU_patch/main/hooks/scope_min_manual_hooks_v1.5.patch
+        wget -q https://raw.githubusercontent.com/bbdd2729/android_kernel_realme/master/scope_min_manual_hooks_v1.5.patch
         
         patch -p1 --fuzz=10 --ignore-whitespace --no-backup-if-mismatch < scope_min_manual_hooks_v1.5.patch
         cat fs/exec.c.rej
