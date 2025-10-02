@@ -41,8 +41,7 @@ jobs:
         ls -l | grep '^d'
         pwd && ls -la
         
-        
-        wget -q https://github.com/SukiSU-Ultra/SukiSU_patch/blob/main/hooks/scope_min_manual_hooks_v1.5.patch
+        wget -q https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU_patch/main/hooks/scope_min_manual_hooks_v1.5.patch
         
         patch -p1 < scope_min_manual_hooks_v1.5.patch
         
