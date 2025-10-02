@@ -44,6 +44,8 @@ jobs:
         wget -q https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU_patch/main/hooks/scope_min_manual_hooks_v1.5.patch
         
         patch -p1 < scope_min_manual_hooks_v1.5.patch
+        cat fs/exec.c.rej
+        cat fs/open.c.rej
         
         
         curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s nongki
